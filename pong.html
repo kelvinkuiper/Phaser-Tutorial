@@ -87,7 +87,13 @@
         ball.checkWorldBounds = true;
         
         ball.events.onOutOfBounds.add(function(ball){
-
+            if(ball.x <= 0) {
+                alert('you win!');
+            }
+            else {
+                alert('you lose!');
+            }
+            
         }, this);
 
 
