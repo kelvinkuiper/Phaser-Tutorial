@@ -1,0 +1,130 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    var game;
+    var cursors;
+
+    var ballSpeed = 1;
+    var ball;
+
+    var paddleSpeed = 500;
+    var paddles;
+    var paddle1;
+    var paddle2;
+
+    var numOfPlayers = 4;
+
+    window.onload = function() {
+
+        game = new Phaser.Game(800, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+        
+       
+        function preload () {
+            
+        }
+
+        function create () {
+
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+
+            cursors = game.input.keyboard.createCursorKeys();
+
+            paddles = game.add.group();
+
+            paddle1 = createPaddle(game.width - 20, game.world.centerY, paddles);
+            paddle2 = createPaddle(20, game.world.centerY, paddles);
+
+            ball = createBall(game.world.centerX, game.world.centerY);
+
+            ball.body.velocity.x = 200;
+
+        }
+
+        function update () {
+            
+            game.physics.arcade.collide(ball, paddles, ballHitsPaddle);
+
+            if (cursors.up.isDown) {
+                //  Move to the left
+                paddle1.body.acceleration.y = -paddleSpeed;
+            }
+            else if (cursors.down.isDown) {
+                //  Move to the right
+                paddle1.body.acceleration.y = paddleSpeed;
+            }
+            else {
+                paddle1.body.acceleration.y = 0;
+                paddle1.body.velocity.y = 0;
+            }
+
+        }
+
+    };
+
+    function createBall(x, y) {
+        var bmd = game.add.bitmapData(10, 10);
+         
+        bmd.ctx.beginPath();
+        bmd.ctx.arc(5, 5, 5, 0, 2*Math.PI, false);
+        bmd.ctx.fillStyle = '#ffffff';
+        bmd.ctx.fill();
+
+        var ball = game.add.sprite(x, y, bmd);
+   
+        game.physics.arcade.enable(ball)
+        ball.anchor.setTo(0.5, 0.5);
+        
+        ball.body.bounce.y = 1;
+        ball.body.bounce.x = 1;
+        ball.checkWorldBounds = true;
+        
+        ball.events.onOutOfBounds.add(function(ball){
+
+        }, this);
+
+
+        return ball;
+    }
+
+    function createPaddle(x, y, group) {
+        var width = 10,
+            height = 200;
+
+        var bmd = game.add.bitmapData(width, height);
+         
+        bmd.ctx.beginPath();
+        bmd.ctx.rect(0, 0, width, height);
+        bmd.ctx.fillStyle = '#ffffff';
+        bmd.ctx.fill();
+
+        var paddle = group.create(x, y, bmd);
+        game.physics.arcade.enable(paddle);
+        paddle.body.collideWorldBounds = true;
+        paddle.body.immovable = true;
+        paddle.anchor.setTo(0.5, 0.5);
+
+        return paddle;
+    }
+
+    function ballHitsPaddle(ball, paddle) {
+        
+        // 0 = mid
+        // 100 = top
+        // -100 = bottom
+        var segmentHit = Math.floor((ball.y - paddle.y));
+
+        ball.body.velocity.y = (1.1 * segmentHit);
+    
+    }
+    </script>
+
+    </body>
+</html>

@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="phaser.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+    
+        //create Phaser game, width, height, context, id, callbacks
+        var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+        
+        var player;
+        var platform;
+        var star;
+
+       
+        function preload () {
+            game.load.image('sky', 'assets/dude/sky.png');
+            game.load.image('ground', 'assets/dude/platform.png');
+            game.load.image('star', 'assets/dude/star.png');
+            game.load.spritesheet('dude', 'assets/dude/dude.png', 32, 48);
+        }
+
+        function create () {
+            game.physics.startSystem(Phaser.Physics.ARCADE);
+            cursors = game.input.keyboard.createCursorKeys();
+            
+            //lucht
+            game.add.sprite(0, 0, 'sky');
+
+            //platform
+            platform = game.add.sprite(100, 100, 'ground');
+            game.physics.arcade.enable(platform);
+            platform.body.immovable = true;
+
+            //ster
+            star = game.add.sprite(140, 0, 'star');
+            game.physics.arcade.enable(star);
+            star.body.gravity.y = 200;
+
+            
+        }
+
+        function update () {
+            
+            game.physics.arcade.collide(platform, star);
+
+               
+        }
+
+        var playerHitsStar = function (player, star) {
+            
+        }
+
+
+        var playerHitsPlatform = function (player, platform) {
+            
+        }
+
+    };
+    </script>
+
+    </body>
+</html>
