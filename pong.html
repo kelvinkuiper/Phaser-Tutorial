@@ -12,15 +12,26 @@
     var game;
     var cursors;
 
+<<<<<<< HEAD
     var ballSpeed = 200;
+=======
+    var ballSpeed = 1;
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
     var ball;
 
     var paddleSpeed = 500;
     var paddles;
+<<<<<<< HEAD
     var paddle;
     var paddle2;
 
     var numOfPlayers = 2;
+=======
+    var paddle1;
+    var paddle2;
+
+    var numOfPlayers = 4;
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
 
     window.onload = function() {
 
@@ -38,6 +49,7 @@
             cursors = game.input.keyboard.createCursorKeys();
 
             paddles = game.add.group();
+<<<<<<< HEAD
             
             paddle = createPaddle(20, game.world.centerY);
             paddle.player = 1;
@@ -48,6 +60,15 @@
             ball = createBall(game.world.centerX, game.world.centerY + 20);
             
             ball.body.velocity.x = ballSpeed;
+=======
+
+            paddle1 = createPaddle(game.width - 20, game.world.centerY, paddles);
+            paddle2 = createPaddle(20, game.world.centerY, paddles);
+
+            ball = createBall(game.world.centerX, game.world.centerY);
+
+            ball.body.velocity.x = 200;
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
 
         }
 
@@ -57,6 +78,7 @@
 
             if (cursors.up.isDown) {
                 //  Move to the left
+<<<<<<< HEAD
                 paddle.body.acceleration.y = -paddleSpeed;
             }
             else if (cursors.down.isDown) {
@@ -67,6 +89,19 @@
                 paddle.body.acceleration.y = 0;
                 paddle.body.velocity.y = 0;
             }
+=======
+                paddle1.body.acceleration.y = -paddleSpeed;
+            }
+            else if (cursors.down.isDown) {
+                //  Move to the right
+                paddle1.body.acceleration.y = paddleSpeed;
+            }
+            else {
+                paddle1.body.acceleration.y = 0;
+                paddle1.body.velocity.y = 0;
+            }
+
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
         }
 
     };
@@ -87,11 +122,25 @@
         ball.body.bounce.y = 1;
         ball.body.bounce.x = 1;
         ball.checkWorldBounds = true;
+<<<<<<< HEAD
+=======
+        
+        ball.events.onOutOfBounds.add(function(ball){
+            if(ball.x <= 0) {
+                alert('you win!');
+            }
+            else {
+                alert('you lose!');
+            }
+            
+        }, this);
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
 
 
         return ball;
     }
 
+<<<<<<< HEAD
     function createPaddle(x, y, horizontal) {
         var width = 10,
             height = 200;
@@ -101,6 +150,12 @@
             height = 10;
         }
 
+=======
+    function createPaddle(x, y, group) {
+        var width = 10,
+            height = 200;
+
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
         var bmd = game.add.bitmapData(width, height);
          
         bmd.ctx.beginPath();
@@ -108,7 +163,11 @@
         bmd.ctx.fillStyle = '#ffffff';
         bmd.ctx.fill();
 
+<<<<<<< HEAD
         var paddle = paddles.create(x, y, bmd);
+=======
+        var paddle = group.create(x, y, bmd);
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
         game.physics.arcade.enable(paddle);
         paddle.body.collideWorldBounds = true;
         paddle.body.immovable = true;
@@ -117,9 +176,21 @@
         return paddle;
     }
 
+<<<<<<< HEAD
     function ballHitsPaddle(ball, paddle) {   
         var angle = 45;
         game.physics.arcade.velocityFromAngle(45, -ballSpeed, ball.body.velocity); 
+=======
+    function ballHitsPaddle(ball, paddle) {
+        
+        // 0 = mid
+        // 100 = top
+        // -100 = bottom
+        var segmentHit = Math.floor((ball.y - paddle.y));
+
+        ball.body.velocity.y = (1.1 * segmentHit);
+    
+>>>>>>> 6349b4b423688da87cee1cde1b37fde3ca3d37e4
     }
     </script>
 
